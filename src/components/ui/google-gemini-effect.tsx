@@ -17,7 +17,7 @@ export const GoogleGeminiEffect = ({
 }) => {
   return (
     <div className={cn("relative", className)}>
-      <div className="text-lg md:text-7xl font-normal pb-4 text-center bg-clip-text text-transparent bg-gradient-to-b from-neutral-100 to-neutral-300">
+      <div className="text-sm md:text-5xl font-normal pb-4 text-center bg-clip-text text-transparent bg-gradient-to-b from-neutral-100 to-neutral-300">
        <ContainerTextFlip/> – Experience AI on<AuroraTextDemo/> Slate      </div>
       <p className="text-xs md:text-xl font-normal text-center text-neutral-400 mt-12 max-w-lg mx-auto">
         {description ||
@@ -25,7 +25,7 @@ export const GoogleGeminiEffect = ({
       </p>
       
       {/* Changed the position of Canvasbutton to be absolute and positioned it on top of the lines */}
-      <div className="w-full h-[400px] relative">
+      <div className="w-full h-[185px] relative">
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10">
           <Canvsbutton />
         </div>
@@ -33,7 +33,7 @@ export const GoogleGeminiEffect = ({
       
       <svg
         width="100%"
-        height="600"
+        height="400"
         viewBox="0 0 1440 600"
         preserveAspectRatio="none"
         xmlns="http://www.w3.org/2000/svg"

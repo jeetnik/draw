@@ -248,16 +248,16 @@ export default function Drawing({ roomId }: { roomId: string }) {
 
   return (
     <div className="relative">
-      {/* Run Button - Fixed Position at Bottom Right */}
+      {/* Run Button - Smaller Size with Fixed Position at Bottom Right */}
       <button
         onClick={runRoute}
         disabled={isLoading}
-        className={`fixed z-50 px-4 py-3 sm:px-6 sm:py-4 md:px-8 md:py-4 font-semibold rounded-xl shadow-2xl transition-all flex items-center gap-2 sm:gap-3
+        className={`fixed z-50 px-3 py-2 sm:px-4 sm:py-2.5 font-medium rounded-lg shadow-lg transition-all flex items-center gap-1.5 sm:gap-2
           ${isLoading 
-            ? 'bg-purple-700/90 cursor-not-allowed ring-4 ring-purple-400/30' 
-            : 'bg-purple-600 hover:bg-purple-700 cursor-pointer transform hover:scale-105 hover:shadow-xl'}
+            ? 'bg-purple-700/90 cursor-not-allowed ring-2 ring-purple-400/30' 
+            : 'bg-purple-600 hover:bg-purple-700 cursor-pointer transform hover:scale-105'}
           ${isLoading && 'animate-pulse'}
-          ${isMobile ? 'bottom-4 left-4 text-sm' : 'bottom-8 right-8 text-base'}
+          ${isMobile ? 'bottom-2 left-2 text-xs' : 'bottom-4 right-4 text-sm'}
         `}
         style={{
           backdropFilter: 'blur(4px)',
@@ -267,7 +267,7 @@ export default function Drawing({ roomId }: { roomId: string }) {
         {isLoading ? (
           <>
             <svg 
-              className={`animate-spin ${isMobile ? 'h-5 w-5' : 'h-7 w-7'} text-white`}
+              className={`animate-spin ${isMobile ? 'h-4 w-4' : 'h-5 w-5'} text-white`}
               xmlns="http://www.w3.org/2000/svg" 
               fill="none" 
               viewBox="0 0 24 24"
@@ -286,52 +286,52 @@ export default function Drawing({ roomId }: { roomId: string }) {
                 d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
               ></path>
             </svg>
-            <span className="text-white/90">{isMobile ? 'Processing' : 'Processing...'}</span>
+            <span className="text-white/90">{isMobile ? 'Loading' : 'Processing'}</span>
           </>
         ) : (
           <>
-            <Sparkles className={`${isMobile ? 'w-5 h-5' : 'w-7 h-7'} text-white transform transition-all hover:scale-110 hover:rotate-12`} />
-            <span className="text-white font-bold tracking-wide">
-              {isMobile ? 'Magic' : 'Magic Button'}
+            <Sparkles className={`${isMobile ? 'w-4 h-4' : 'w-5 h-5'} text-white transform transition-all hover:scale-110`} />
+            <span className="text-white font-medium tracking-wide">
+              {isMobile ? 'Magic' : 'Magic'}
             </span>
           </>
         )}
       </button>
       
-      {/* Main Tools Toolbar - With Toggle for Mobile */}
+      {/* Main Tools Toolbar - Smaller Size and Adjusted for Mobile */}
       <div className={`fixed z-10 transition-all duration-300 shadow-md
         ${isMobile 
           ? toolbarCollapsed 
-            ? 'top-6 right-6' 
-            : 'top-6 left-1/2 -translate-x-1/2' 
-          : 'top-6 left-1/2 -translate-x-1/2'}`}
+            ? 'top-3 right-3' 
+            : 'top-3 left-1/2 -translate-x-1/2' 
+          : 'top-3 left-1/2 -translate-x-1/2'}`}
       >
         {isMobile && toolbarCollapsed ? (
           <button 
             onClick={toggleToolbar}
-            className="bg-purple-600 p-3 rounded-full shadow-lg"
+            className="bg-purple-600 p-2 rounded-full shadow-md"
           >
-            <Pencil size={24} color="white" />
+            <Pencil size={18} color="white" />
           </button>
         ) : (
-          <div className="flex gap-2 sm:gap-3 p-3 sm:p-4 bg-neutral-800 rounded-xl relative">
+          <div className="flex gap-1 sm:gap-2 p-2 sm:p-3 bg-neutral-800 rounded-lg relative">
             {isMobile && (
               <button 
                 onClick={toggleToolbar}
-                className="absolute -top-3 -right-3 bg-purple-600 p-1.5 rounded-full shadow-md"
+                className="absolute -top-2 -right-2 bg-purple-600 p-1 rounded-full shadow-md"
               >
-                <X size={16} color="white" />
+                <X size={14} color="white" />
               </button>
             )}
             
-            <div className={`flex flex-wrap gap-2 justify-center ${isMobile ? 'max-w-[300px]' : ''}`}>
+            <div className={`flex flex-wrap gap-1 justify-center ${isMobile ? 'max-w-[250px]' : ''}`}>
               {tools.map((tool) => (
                 <button
                   key={tool.type}
                   onClick={() => handleToolSelect(tool.type)}
                   className={`
-                    ${isMobile ? 'w-10 h-10 sm:w-12 sm:h-12' : 'w-12 h-12 sm:w-14 sm:h-14'} 
-                    flex items-center justify-center rounded-lg cursor-pointer transition-all duration-200 ease-in-out
+                    ${isMobile ? 'w-8 h-8' : 'w-9 h-9 sm:w-10 sm:h-10'} 
+                    flex items-center justify-center rounded-md cursor-pointer transition-all duration-200 ease-in-out
                     ${selectedTool === tool.type 
                       ? 'bg-purple-600 hover:bg-purple-700' 
                       : 'bg-neutral-700 hover:bg-neutral-600'}
@@ -339,7 +339,7 @@ export default function Drawing({ roomId }: { roomId: string }) {
                   title={tool.label}
                 >
                   {React.cloneElement(tool.icon, {
-                    size: isMobile ? 20 : 24,
+                    size: isMobile ? 16 : 18,
                     strokeWidth: 1.5,
                     color: "white",
                   })}
@@ -350,26 +350,26 @@ export default function Drawing({ roomId }: { roomId: string }) {
         )}
       </div>
 
-      {/* Style Toolbar - Responsive Positioning */}
-      <div className={`fixed z-40 bg-neutral-900 rounded-xl p-3 sm:p-4 flex flex-col gap-3 sm:gap-4 shadow-lg transition-all duration-300
+      {/* Style Toolbar - Reduced Size */}
+      <div className={`fixed z-40 bg-neutral-900 rounded-lg p-2 sm:p-3 flex flex-col gap-2 sm:gap-3 shadow-md transition-all duration-300
         ${isMobile 
-          ? 'w-44 sm:w-48 top-auto bottom-4 right-4' 
-          : 'w-48 sm:w-52 top-5 right-5'}`}
+          ? 'w-36 sm:w-40 top-auto bottom-2 right-2' 
+          : 'w-40 sm:w-44 top-3 right-3'}`}
       >
         {/* Stroke Color Section */}
-        <div className="flex flex-col gap-1 sm:gap-2">
-          <h3 className="text-white text-sm sm:text-base font-medium mb-1 sm:mb-2">Stroke</h3>
-          <div className="flex gap-2 flex-wrap">
+        <div className="flex flex-col gap-1">
+          <h3 className="text-white text-xs font-medium mb-1">Stroke</h3>
+          <div className="flex gap-1 flex-wrap">
             {strokeColors.map((color) => (
               <div
                 key={color}
                 onClick={() => handleStrokeColorChange(color)}
                 className={`
-                  ${isMobile ? 'w-7 h-7 sm:w-8 sm:h-8' : 'w-8 h-8 sm:w-9 sm:h-9'}
-                  rounded-lg cursor-pointer transition-all duration-200
+                  ${isMobile ? 'w-6 h-6' : 'w-6 h-6 sm:w-7 sm:h-7'}
+                  rounded-md cursor-pointer transition-all duration-200
                   ${strokeColor === color 
-                    ? 'border-2 border-blue-500 ring-2 ring-blue-500/30' 
-                    : 'border-2 border-transparent'}
+                    ? 'border-2 border-blue-500 ring-1 ring-blue-500/30' 
+                    : 'border border-transparent'}
                 `}
                 style={{ 
                   backgroundColor: color === 'transparent' ? '#ffffff' : color,
@@ -383,19 +383,19 @@ export default function Drawing({ roomId }: { roomId: string }) {
         </div>
 
         {/* Background Color Section */}
-        <div className="flex flex-col gap-1 sm:gap-2">
-          <h3 className="text-white text-sm sm:text-base font-medium mb-1 sm:mb-2">Background</h3>
-          <div className="flex gap-2 flex-wrap">
+        <div className="flex flex-col gap-1">
+          <h3 className="text-white text-xs font-medium mb-1">Background</h3>
+          <div className="flex gap-1 flex-wrap">
             {bgColors.map((color) => (
               <div
                 key={color}
                 onClick={() => handleBgColorChange(color)}
                 className={`
-                  ${isMobile ? 'w-7 h-7 sm:w-8 sm:h-8' : 'w-8 h-8 sm:w-9 sm:h-9'}
-                  rounded-lg cursor-pointer transition-all duration-200
+                  ${isMobile ? 'w-6 h-6' : 'w-6 h-6 sm:w-7 sm:h-7'}
+                  rounded-md cursor-pointer transition-all duration-200
                   ${bgColor === color 
-                    ? 'border-2 border-blue-500 ring-2 ring-blue-500/30' 
-                    : 'border-2 border-transparent'}
+                    ? 'border-2 border-blue-500 ring-1 ring-blue-500/30' 
+                    : 'border border-transparent'}
                 `}
                 style={{ 
                   backgroundColor: color === 'transparent' ? '#ffffff' : color,
@@ -409,36 +409,36 @@ export default function Drawing({ roomId }: { roomId: string }) {
         </div>
 
         {/* Stroke Width Section */}
-        <div className="flex flex-col gap-1 sm:gap-2">
-          <h3 className="text-white text-sm sm:text-base font-medium mb-1 sm:mb-2">Stroke Width</h3>
-          <div className="flex items-center gap-2 sm:gap-3">
+        <div className="flex flex-col gap-1">
+          <h3 className="text-white text-xs font-medium mb-1">Stroke Width</h3>
+          <div className="flex items-center gap-1 sm:gap-2">
             <input
               type="range"
               min="1"
               max="20"
               value={strokeWidth}
               onChange={(e) => handleStrokeWidthChange(Number(e.target.value))}
-              className="flex-grow h-1.5 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full appearance-none"
+              className="flex-grow h-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full appearance-none"
             />
-            <span className="min-w-[24px] sm:min-w-[30px] text-center bg-neutral-800 text-white text-xs sm:text-sm py-1 px-1.5 sm:px-2 rounded-md">
+            <span className="min-w-[20px] text-center bg-neutral-800 text-white text-xs py-0.5 px-1 rounded">
               {strokeWidth}
             </span>
           </div>
         </div>
 
         {/* Actions Section */}
-        <div className="flex flex-col gap-1 sm:gap-2">
-          <h3 className="text-white text-sm sm:text-base font-medium mb-1 sm:mb-2">Actions</h3>
-          <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-1">
+          <h3 className="text-white text-xs font-medium mb-1">Actions</h3>
+          <div className="flex flex-col gap-1">
             <button 
               onClick={handleDeleteSelected} 
-              className="bg-purple-600 text-white text-sm py-2 sm:py-2.5 rounded-md hover:bg-purple-700 transition-colors"
+              className="bg-purple-600 text-white text-xs py-1.5 rounded hover:bg-purple-700 transition-colors"
             >
               Delete Selected
             </button>
             <button 
               onClick={handleClearAll} 
-              className="bg-purple-600 text-white text-sm py-2 sm:py-2.5 rounded-md hover:bg-purple-700 transition-colors"
+              className="bg-purple-600 text-white text-xs py-1.5 rounded hover:bg-purple-700 transition-colors"
             >
               Clear All
             </button>
@@ -454,46 +454,46 @@ export default function Drawing({ roomId }: { roomId: string }) {
         className="fixed top-0 left-0 touch-none select-none cursor-auto"
       />
       
-      {/* Chat UI for LaTeX Display - Responsive Sizing */}
+      {/* Chat UI for LaTeX Display - Smaller Size */}
       <div 
         className={`fixed z-50 transition-all duration-300 ease-in-out ${showChat ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
         style={{
-          width: isMobile ? 'calc(100vw - 20px)' : '400px',
-          maxWidth: 'calc(100vw - 20px)',
-          height: isMobile ? 'calc(100vh - 180px)' : '600px',
-          maxHeight: 'calc(100vh - 120px)',
-          left: isMobile ? '10px' : '20px',
-          bottom: isMobile ? '70px' : '80px',
-          borderRadius: '12px',
+          width: isMobile ? 'calc(100vw - 16px)' : '320px',
+          maxWidth: 'calc(100vw - 16px)',
+          height: isMobile ? 'calc(100vh - 140px)' : '450px',
+          maxHeight: 'calc(100vh - 100px)',
+          left: isMobile ? '8px' : '16px',
+          bottom: isMobile ? '50px' : '60px',
+          borderRadius: '8px',
           overflow: 'hidden',
-          boxShadow: '0 10px 25px rgba(0,0,0,0.2)',
+          boxShadow: '0 8px 20px rgba(0,0,0,0.2)',
           display: 'flex',
           flexDirection: 'column'
         }}
       >
         {/* Chat Header */}
-        <div className="bg-purple-600 border-b text-white p-2 sm:p-4 flex justify-between items-center">
-          <div className="font-bold text-sm sm:text-base">Salte AI</div>
+        <div className="bg-purple-600 border-b text-white p-1.5 sm:p-2 flex justify-between items-center">
+          <div className="font-medium text-xs sm:text-sm">Salte AI</div>
           <button 
             onClick={() => setShowChat(false)} 
-            className="text-white hover:bg-red-600 rounded-full p-1 transition-colors"
+            className="text-white hover:bg-red-600 rounded-full p-0.5 transition-colors"
           >
-            <X size={isMobile ? 16 : 20} />
+            <X size={isMobile ? 14 : 16} />
           </button>
         </div>
         
         {/* Chat Messages Area */}
         <div 
           ref={latexContainerRef}
-          className="flex-grow bg-neutral-900 p-2 sm:p-4 overflow-y-auto"
+          className="flex-grow bg-neutral-900 p-1.5 sm:p-2 overflow-y-auto"
           style={{
             display: 'flex',
             flexDirection: 'column',
-            gap: '12px sm:gap-16px'
+            gap: '8px'
           }}
         >
           {latexExpression.length === 0 ? (
-            <div className="text-center text-gray-400 my-auto text-xs sm:text-sm">
+            <div className="text-center text-gray-400 my-auto text-xs">
               Draw an equation and click the Run button to see results here
             </div>
           ) : (
@@ -501,39 +501,35 @@ export default function Drawing({ roomId }: { roomId: string }) {
               {latexExpression.map((item) => (
                 <div key={item.id} className="flex flex-col max-w-full">
                   {/* User "message" */}
-                  <div className="self-start bg-gray-100 rounded-lg p-2 sm:p-3 mb-2 max-w-3/4">
-                    <div className="text-gray-600 text-xs sm:text-sm">Equation processed</div>
+                  <div className="self-start bg-gray-100 rounded-md p-1.5 mb-1.5 max-w-3/4">
+                    <div className="text-gray-600 text-xs">Equation processed</div>
                   </div>
                   
                   {/* AI response with LaTeX */}
-                  <div className="self-end bg-white rounded-xl p-3 sm:p-4 text-black relative max-w-[90%] group transition-all duration-200 ease-in-out border border-white/5">
+                  <div className="self-end bg-white rounded-lg p-2 text-black relative max-w-[90%] group transition-all duration-200 ease-in-out border border-white/5">
                     {/* Delete button positioned in top-right corner */}
                     <button
                       onClick={() => removeLatexExpression(item.id)}
-                      className="absolute -top-2 -right-2 p-1.5 bg-red-600 hover:bg-red-600 rounded-full shadow-md transition-colors duration-150 ease-out z-10"
+                      className="absolute -top-1.5 -right-1.5 p-1 bg-red-600 hover:bg-red-600 rounded-full shadow-md transition-colors duration-150 ease-out z-10"
                       aria-label="Delete"
-                      style={{
-                        backdropFilter: 'blur(4px)',
-                        WebkitBackdropFilter: 'blur(4px)'
-                      }}
                     >
-                      <X size={12} className="stroke-[2.5] hover:scale-105 transition-transform" />
+                      <X size={10} className="stroke-[2.5]" />
                     </button>
                     
                     <div className="relative z-10">
                       {/* Improved scrolling container with proper max height and overflow handling */}
                       <div
-                        className="latex-content font-serif text-xs sm:text-sm tracking-tight leading-tight break-words max-h-[200px] sm:max-h-[300px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent"
+                        className="latex-content font-serif text-xs leading-tight break-words max-h-[160px] sm:max-h-[200px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent"
                         dangerouslySetInnerHTML={{ __html: item.content }}
                       />
                     </div>
                     
                     {/* Bottom alignment spacer */}
-                    <div className="h-2 sm:h-3" />
+                    <div className="h-1.5 sm:h-2" />
                     
                     {/* Visual enhancements */}
-                    <div className="absolute inset-0 rounded-xl border border-white/5 pointer-events-none" />
-                    <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent opacity-20 rounded-xl pointer-events-none" />
+                    <div className="absolute inset-0 rounded-lg border border-white/5 pointer-events-none" />
+                    <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent opacity-20 rounded-lg pointer-events-none" />
                   </div>       
                 </div>
               ))}
@@ -543,18 +539,18 @@ export default function Drawing({ roomId }: { roomId: string }) {
         </div>
         
         {/* Footer - Just for UI completeness */}
-        <div className="bg-purple-600 border-t border-gray-200 p-2 sm:p-3 text-center text-xs text-gray-500">
+        <div className="bg-purple-600 border-t border-gray-200 p-1.5 text-center text-xs text-white">
           Powered by Slate AI
         </div>
       </div>
       
-      {/* Chat toggle button if chat is hidden - Responsive positioning */}
+      {/* Chat toggle button if chat is hidden - Smaller Size */}
       {!showChat && (
         <button
           onClick={() => setShowChat(true)}
-          className={`fixed z-50 ${isMobile ? 'w-12 h-12 top-4 left-4' : 'w-14 h-14 top-5 left-5'} bg-purple-700 hover:bg-purple-600 rounded-full flex items-center justify-center shadow-lg transition-all`}
+          className={`fixed z-50 ${isMobile ? 'w-9 h-9 top-3 left-3' : 'w-10 h-10 top-3 left-3'} bg-purple-700 hover:bg-purple-600 rounded-full flex items-center justify-center shadow-md transition-all`}
         >
-          <svg xmlns="http://www.w3.org/2000/svg" width={isMobile ? "20" : "24"} height={isMobile ? "20" : "24"} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white">
+          <svg xmlns="http://www.w3.org/2000/svg" width={isMobile ? "16" : "18"} height={isMobile ? "16" : "18"} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white">
             <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
           </svg>
         </button>
@@ -572,46 +568,46 @@ export default function Drawing({ roomId }: { roomId: string }) {
         
         /* Animations */
         @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(10px); }
+          from { opacity: 0; transform: translateY(8px); }
           to { opacity: 1; transform: translateY(0); }
         }
         
         .latex-content {
-          animation: fadeIn 0.3s ease-out;
+          animation: fadeIn 0.25s ease-out;
         }
         
         /* Responsive styling */
         @media (max-width: 768px) {
           .MathJax {
-            font-size: 90% !important;
+            font-size: 85% !important;
           }
         }
         
         @media (max-width: 480px) {
           .MathJax {
-            font-size: 80% !important;
+            font-size: 75% !important;
           }
         }
         
         /* Improved input styling for touch devices */
         @media (max-width: 768px) {
           input[type=range] {
-            height: 24px;
+            height: 20px;
             -webkit-appearance: none;
-            margin: 10px 0;
+            margin: 8px 0;
             background: transparent;
           }
           input[type=range]::-webkit-slider-thumb {
-            height: 16px;
-            width: 16px;
+            height: 14px;
+            width: 14px;
             border-radius: 50%;
             background: #4f46e5;
             -webkit-appearance: none;
             margin-top: -6px;
           }
           input[type=range]::-webkit-slider-runnable-track {
-            height: 4px;
-            border-radius: 2px;
+            height: 3px;
+            border-radius: 1.5px;
           }
           input[type=range]:focus {
             outline: none;
@@ -621,8 +617,8 @@ export default function Drawing({ roomId }: { roomId: string }) {
         /* Safe area insets for notched phones */
         @supports (padding: max(0px)) {
           .chat-container {
-            padding-bottom: max(10px, env(safe-area-inset-bottom));
-            padding-left: max(10px, env(safe-area-inset-left));
+            padding-bottom: max(8px, env(safe-area-inset-bottom));
+            padding-left: max(8px, env(safe-area-inset-left));
           }
         }
       `}</style>

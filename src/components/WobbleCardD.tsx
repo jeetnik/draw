@@ -33,7 +33,7 @@ export function WobbleCardDemo() {
         Sketch your ideas effortlessly—simply press the Magic Button to unlock intelligent insights!
         </h2>
         <p className="mt-4 max-w-[26rem] text-left  text-base/6 text-neutral-200">
-       Get answer by pressing the Magic Button 
+       Get details information of Image by pressing the Magic Button 
         </p>
       </WobbleCard>
       <WobbleCard containerClassName="col-span-1 lg:col-span-3 bg-blue-900 min-h-[500px] lg:min-h-[600px] xl:min-h-[300px]">
