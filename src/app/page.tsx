@@ -1,29 +1,27 @@
-// app/page.tsx
-'use client'; // Mark this as a client component
-import { useRouter } from 'next/navigation';
-import { v4 as uuidv4 } from 'uuid';
+'use client';
 
-const generateRoomId = (): string => {
-  return uuidv4().substring(0, 8);
-};
+import { GoogleGeminiEffect } from '@/components/ui/google-gemini-effect';
+import Navbar from '@/components/NavBar';
+import { WobbleCardDemo } from '../components/WobbleCardD';
+import { MacbookScroll } from '@/components/ui/macbook-scroll';
 
 export default function Home() {
-  const router = useRouter();
-
-  const handleCreateRoom = () => {
-    const roomId = generateRoomId();
-    router.push(`/canvas/${roomId}`);
-  };
-
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen">
-      <h1 className="text-2xl mb-4">Welcome to Drawing App</h1>
-      <button 
-        className="bg-amber-200 px-6 py-3 rounded-lg hover:bg-amber-300 transition-colors"
-        onClick={handleCreateRoom}
-      >
-        Create New Room
-      </button>
-    </div>
+    <>
+      <Navbar />
+      <div className="flex flex-col items-center justify-center min-h-screen w-full">
+        
+        {/* GoogleGeminiEffect Section */}
+        <div className="h-[100vh] w-full bg-black dark:border dark:border-white/[0.1] rounded-md relative pt-40">
+          <GoogleGeminiEffect />
+        </div>
+<MacbookScroll/>
+        {/* WobbleCardDemo Section */}
+        <div className="h-[100vh] w-full bg-black dark:border dark:border-white/[0.1] rounded-md relative pt-40">
+          <WobbleCardDemo />
+        </div>
+
+      </div>
+    </>
   );
 }

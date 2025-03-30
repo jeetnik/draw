@@ -111,7 +111,7 @@ export default function initDraw(canvas: HTMLCanvasElement, roomId: string) {
   let isPanning = false;
   let panStartX = 0;
   let panStartY = 0;
-  
+
   // Default style settings
   let currentStrokeColor = "#FFFFFF";
   let currentBgColor = "transparent";
@@ -294,7 +294,7 @@ export default function initDraw(canvas: HTMLCanvasElement, roomId: string) {
     const toScreenX = (x: number) => x * scale + offsetX;
     const toScreenY = (y: number) => y * scale + offsetY;
     const toScreenDim = (d: number) => d * scale;
-    const handleSize = 8; // Screen-space handle size
+    const handleSize = 12; // Screen-space handle size
 
     if (shape.type === "rect" || shape.type === "diamond" || shape.type === "select") {
         const x = toScreenX(shape.x);
@@ -350,6 +350,9 @@ export default function initDraw(canvas: HTMLCanvasElement, roomId: string) {
 
         // Draw selection outline
         ctx.setLineDash([5, 5]);
+
+        ctx.strokeStyle = "blue";
+        ctx.lineWidth = 1;
         ctx.beginPath();
         ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
         ctx.stroke();
@@ -440,6 +443,7 @@ export default function initDraw(canvas: HTMLCanvasElement, roomId: string) {
         // Draw selection outline
         ctx.setLineDash([5, 5]);
         ctx.strokeStyle = "blue";
+        ctx.lineWidth = 2;
         ctx.strokeRect(x, y - textHeight, textWidth, textHeight);
 
         // Resize handle
@@ -635,6 +639,14 @@ export default function initDraw(canvas: HTMLCanvasElement, roomId: string) {
       }
       
       if (selectedTool === "text") {
+        if (textInput) {
+            textInput.remove(); // Modern remove() method is forgiving
+            textInput = null;
+        }
+        if (textInput && document.body.contains(textInput)) {
+            document.body.removeChild(textInput);
+            textInput = null;
+        }
         // Create text input at click position
         ClearCanvas(existingShape, ctx, canvas);
         if (textInput) document.body.removeChild(textInput);
@@ -649,13 +661,13 @@ export default function initDraw(canvas: HTMLCanvasElement, roomId: string) {
         textInput.style.left = `${textX}px`;  // Changed to pageX
         textInput.style.top = `${textY}px`;   // Changed to pageY
         textInput.style.zIndex = "1000";
-        textInput.style.background = "black"; // Changed to solid background
+        textInput.style.background = "transpernent"; // Changed to solid background
         textInput.style.border = "2px solid #4d88ff"; // More visible border
 
         textInput.style.minWidth = "200px";
         textInput.style.minHeight = "40px";
         textInput.style.padding = "4px";
-        textInput.style.fontSize = "16px";
+        textInput.style.fontSize = "22px";
         textInput.style.transform = "translate(-50%, -50%)";  // Center alignment
         textInput.style.pointerEvents = "auto";  // Make sure it's interactive
         textInput.style.color = currentStrokeColor; 
@@ -683,8 +695,11 @@ export default function initDraw(canvas: HTMLCanvasElement, roomId: string) {
             saveShapesToStorage(existingShape, roomId);
             ClearCanvas(existingShape, ctx, canvas);
           }
-          
-          if (textInput) document.body.removeChild(textInput);
+          textInput?.remove(); // Safe removal using optional chaining
+          textInput = null;
+          if (textInput && document.body.contains(textInput)) {
+            document.body.removeChild(textInput);
+        }
           textInput = null;
         });
       }
@@ -1013,7 +1028,16 @@ canvas.addEventListener("pointermove", (e) => {
         ClearCanvas(existingShape, ctx, canvas);
         
         if (selectedTool === "pencil" || selectedTool === "eraser") {
-            // ... existing path drawing logic (may need world conversion if paths are stored in world coordinates)
+            currentPath.push({ x: tx, y: ty }); // Add this line
+    
+            ctx.beginPath();
+            ctx.moveTo(currentPath[0].x, currentPath[0].y);
+            for (const point of currentPath) {
+                ctx.lineTo(point.x, point.y);
+            }
+            ctx.strokeStyle = selectedTool === "pencil" ? currentStrokeColor : "#000000";
+            ctx.lineWidth = selectedTool === "pencil" ? currentStrokeWidth : 10;
+            ctx.stroke();
         } else if (selectedTool === "rect") {
             let width = tx - StartX; // Use world coordinates
             let height = ty - StartY;
@@ -1362,7 +1386,7 @@ function createStyleToolbar() {
     styleToolbar.style.flexDirection = "column";
     styleToolbar.style.gap = "16px";
     styleToolbar.style.zIndex = "1000";
-    styleToolbar.style.width = "240px";
+    styleToolbar.style.width = "200px";
     styleToolbar.style.boxShadow = "0 4px 12px rgba(0, 0, 0, 0.2)";
     
     // Section Label Style
@@ -1680,14 +1704,33 @@ function createStyleToolbar() {
     return styleToolbar;
   }
 // Create the toolbars
+const deleteSelected = () => {
+    if (selectedShape && selectedShapeIndex >= 0) {
+      existingShape.splice(selectedShapeIndex, 1);
+      selectedShape = null;
+      selectedShapeIndex = -1;
+      saveShapesToStorage(existingShape, roomId);
+      ClearCanvas(existingShape, ctx, canvas);
+    }
+  };
+  const clearAll = () => {
+    if (confirm("Are you sure you want to clear all shapes?")) {
+      existingShape = [];
+      selectedShape = null;
+      selectedShapeIndex = -1;
+      saveShapesToStorage(existingShape, roomId);
+      ClearCanvas(existingShape, ctx, canvas);
+    }
+  };
 
-createStyleToolbar();
 
 // Return functions for external access
 return {
   selectTool,
   setStrokeColor,
   setBgColor,
-  setStrokeWidth
+  setStrokeWidth,
+  deleteSelected,
+  clearAll,
 };
 }

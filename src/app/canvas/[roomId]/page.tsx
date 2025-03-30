@@ -1,7 +1,7 @@
 "use client"; // Ensure this is a client component
 
 import { use, useEffect, useState } from "react";
-import Drawing from "../../../../component/canvaspage";
+import Drawing from "../../../components/canvaspage";
 
 type Props = {
   params: Promise<{
