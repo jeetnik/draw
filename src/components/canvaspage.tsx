@@ -40,7 +40,7 @@ interface Response {
 export default function Drawing({ roomId }: { roomId: string }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const drawingInstanceRef = useRef<DrawingInstance | null>(null);
-  const [selectedTool, setSelectedTool] = useState<string>("select");
+  const [selectedTool, setSelectedTool] = useState<string>("pencil");
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
   const [strokeColor, setStrokeColor] = useState("#FFFFFF");
   const [bgColor, setBgColor] = useState("transparent");

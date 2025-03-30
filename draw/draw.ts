@@ -97,7 +97,7 @@ type Tool = | {
 type ToolType = Tool['type']| "pan";
 export default function initDraw(canvas: HTMLCanvasElement, roomId: string) {
   let existingShape: Tool[] = loadShapesFromStorage(roomId);
-  let selectedTool: ToolType = "select";
+  let selectedTool: ToolType = "pencil";
   let selectedShape: Tool | null = null;
   let selectedShapeIndex: number = -1;
   let isResizing = false;
