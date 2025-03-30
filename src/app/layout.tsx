@@ -9,8 +9,13 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Slate - AI Canvas",
+  title: "Slate - AI 100XDevs Canvas",
   description: "Unlock the power of AI-driven drawing",
+  icons: {
+    icon: [
+      { url: '/favicon.svg', type: 'image/svg+xml' }
+    ]
+  }
 };
 
 export default function RootLayout({
